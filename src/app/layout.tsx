@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { ChatSidebar } from '@/components/chat-sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="h-full">
       <body className={cn('h-full w-full antialiased', inter.className)}>
-        {children}
+        <ChatSidebar>{children}</ChatSidebar>
       </body>
     </html>
   )
