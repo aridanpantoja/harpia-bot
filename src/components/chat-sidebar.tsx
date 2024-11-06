@@ -7,9 +7,16 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarInset,
+  SidebarMenu,
   SidebarMenuButton,
   SidebarProvider,
 } from './ui/sidebar'
+
+const latestChats = [
+  'Como criar um Chatbot com dois palitos de dente, meia banana prata e uma caixa de fósforo',
+  'Qual a diferença entre um Chatbot e um ChatGPT?',
+  'Cite as principais diferenças entre um Chatbot e um ChatGPT?',
+]
 
 export function ChatSidebar({ children }: { children: ReactNode }) {
   return (
@@ -25,7 +32,17 @@ export function ChatSidebar({ children }: { children: ReactNode }) {
             </Link>
           </SidebarMenuButton>
         </SidebarHeader>
-        <SidebarContent></SidebarContent>
+        <SidebarContent className="p-2">
+          <SidebarMenu className="space-y-2">
+            {latestChats.map((chat, i) => (
+              <Link href="/" key={i}>
+                <SidebarMenuButton>
+                  <span>{chat}</span>
+                </SidebarMenuButton>
+              </Link>
+            ))}
+          </SidebarMenu>
+        </SidebarContent>
         <SidebarFooter>
           <SidebarMenuButton>
             <Settings />
