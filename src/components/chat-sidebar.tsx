@@ -33,9 +33,7 @@ export function ChatSidebar({ children }: { children: ReactNode }) {
           </SidebarMenuButton>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset>
-        <div className="m-6 flex h-full flex-col">{children}</div>
-      </SidebarInset>
+      <SidebarInset className="overflow-hidden">{children}</SidebarInset>
     </SidebarProvider>
   )
 }

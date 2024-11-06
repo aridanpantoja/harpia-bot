@@ -14,9 +14,9 @@ const messages = [
 
 export default function Home() {
   return (
-    <>
+    <div className="flex h-full flex-col">
       <ChatNavbar />
-      <div className="mx-auto flex flex-1 grow flex-col gap-4 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
+      <div className="mx-auto flex flex-1 grow flex-col gap-4 p-6 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
         <div className="space-y-4 md:space-y-6">
           {messages.map((message, index) => (
             <ChatMessage
@@ -29,6 +29,6 @@ export default function Home() {
 
         <ChatForm />
       </div>
-    </>
+    </div>
   )
 }
