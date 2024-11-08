@@ -1,28 +1,24 @@
 import { cn } from '@/lib/utils'
+import { Message } from 'ai'
 import { Bot } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
-interface ChatMessageProps {
-  message: string
-  type: 'user' | 'assistant'
-}
-
-export function ChatMessage({ message, type }: ChatMessageProps) {
+export function ChatMessage({ message }: { message: Message }) {
   return (
     <article
       className={cn(
         '',
-        type === 'assistant'
-          ? 'flex w-full items-center gap-3'
-          : 'relative ml-auto w-fit max-w-[70%] rounded-xl bg-muted-foreground/5 px-5 py-2.5',
+        message.role === 'assistant'
+          ? 'flex w-full items-center gap-2'
+          : 'relative ml-auto w-fit max-w-[70%] rounded-xl border border-muted-foreground/5 bg-muted-foreground/10 px-5 py-2.5',
       )}
     >
-      {type === 'assistant' && (
+      {message.role === 'assistant' && (
         <div className="self-start rounded-full border bg-primary p-2">
-          <Bot className="size-5 text-primary-foreground" />
+          <Bot className="size-4 text-primary-foreground" />
         </div>
       )}
-      {type === 'assistant' ? (
+      {message.role === 'assistant' ? (
         <ReactMarkdown
           className="block space-y-4 text-pretty"
           components={{
@@ -42,10 +38,10 @@ export function ChatMessage({ message, type }: ChatMessageProps) {
             ),
           }}
         >
-          {message}
+          {message.content}
         </ReactMarkdown>
       ) : (
-        <p>{message}</p>
+        <p>{message.content}</p>
       )}
     </article>
   )
