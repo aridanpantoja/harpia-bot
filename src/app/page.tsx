@@ -1,34 +1,65 @@
-import { ChatForm } from '@/components/chat-form'
-import { ChatMessage } from '@/components/chat-message'
-import { ChatNavbar } from '@/components/chat-navbar'
+'use client'
 
-const messages = [
-  { message: 'Salve! Qual que é a tua duvida?', type: 'bot' },
-  {
-    message:
-      'Tô atrás de saber como criar um Chatbot com dois palitos de dente, meia banana prata e uma caixa de fósforo! Tem como me ajudar?',
-    type: 'user',
-  },
-  { message: 'Claro! Sei exatamente como te ajudar a fazer isso', type: 'bot' },
-]
+import { ChatMessage } from '@/components/chat-message'
+import { ModeToggle } from '@/components/mode-toggle'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useChat } from 'ai/react'
+import { ArrowUp, Bot, Save } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Home() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat()
+
   return (
     <div className="flex h-full flex-col">
-      <ChatNavbar />
-      <div className="mx-auto flex flex-1 grow flex-col gap-4 p-6 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
-        <div className="space-y-4 md:space-y-6">
-          {messages.map((message, index) => (
-            <ChatMessage
-              type={message.type as 'user' | 'bot'}
-              key={index}
-              message={message.message}
-            />
-          ))}
+      <header className="sticky top-0 z-50 w-full gap-2 border-b bg-background">
+        <div className="relative flex h-14 items-center justify-between px-4">
+          <Button variant="outline" size="icon">
+            <Save />
+          </Button>
+          <Link
+            href="/"
+            className="absolute right-1/2 flex translate-x-1/2 gap-2 font-semibold text-muted-foreground"
+          >
+            <Bot />
+            <h1>UFPA BOT</h1>
+          </Link>
+          <ModeToggle />
         </div>
+      </header>
 
-        <ChatForm />
-      </div>
+      <main className="mx-auto h-full grow md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
+        <div className="mx-auto flex w-full flex-1 grow flex-col gap-4 p-6 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
+          <div className="flex-1 grow">
+            <div className="mb-20 space-y-4 md:space-y-6">
+              {messages.map((message, index) => (
+                <ChatMessage
+                  type={message.role as 'user' | 'assistant'}
+                  key={index}
+                  message={message.content}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer className="fixed inset-x-0 bottom-0 flex h-20 w-full items-center bg-background">
+        <div className="mx-auto flex w-full items-center md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
+          <form className="mt-auto flex w-full gap-2" onSubmit={handleSubmit}>
+            <Input
+              placeholder="Mensagem ChatBot UFPA"
+              value={input}
+              onChange={handleInputChange}
+            />
+
+            <Button size="icon">
+              <ArrowUp />
+            </Button>
+          </form>
+        </div>
+      </footer>
     </div>
   )
 }

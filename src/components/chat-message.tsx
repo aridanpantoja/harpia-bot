@@ -3,20 +3,20 @@ import { Bot } from 'lucide-react'
 
 interface ChatMessageProps {
   message: string
-  type: 'user' | 'bot'
+  type: 'user' | 'assistant'
 }
 
 export function ChatMessage({ message, type }: ChatMessageProps) {
   return (
     <article
       className={cn(
-        'w-full',
-        type === 'bot'
-          ? 'flex items-center gap-3'
-          : 'relative ml-auto max-w-[70%] rounded-3xl bg-muted-foreground/5 px-5 py-2.5',
+        '',
+        type === 'assistant'
+          ? 'flex w-full items-center gap-3'
+          : 'relative ml-auto w-fit max-w-[70%] rounded-xl bg-muted-foreground/5 px-5 py-2.5',
       )}
     >
-      {type === 'bot' && (
+      {type === 'assistant' && (
         <div className="self-start rounded-full border bg-primary p-2">
           <Bot className="size-5 text-primary-foreground" />
         </div>
