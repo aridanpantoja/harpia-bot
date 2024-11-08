@@ -23,7 +23,27 @@ export function ChatMessage({ message, type }: ChatMessageProps) {
         </div>
       )}
       {type === 'assistant' ? (
-        <ReactMarkdown className="flex flex-col gap-4">{message}</ReactMarkdown>
+        <ReactMarkdown
+          className="block space-y-4 text-pretty"
+          components={{
+            a: ({ children, ...props }) => (
+              <a
+                className="font-medium text-primary underline underline-offset-4"
+                {...props}
+              >
+                {children}
+              </a>
+            ),
+            ul: (props) => (
+              <ul className="ml-4 list-disc space-y-2" {...props} />
+            ),
+            ol: (props) => (
+              <ol className="ml-4 list-decimal space-y-2" {...props} />
+            ),
+          }}
+        >
+          {message}
+        </ReactMarkdown>
       ) : (
         <p>{message}</p>
       )}
