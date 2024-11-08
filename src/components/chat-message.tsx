@@ -23,7 +23,7 @@ export function ChatMessage({ message, type }: ChatMessageProps) {
         </div>
       )}
       {type === 'assistant' ? (
-        <ReactMarkdown>{message}</ReactMarkdown>
+        <ReactMarkdown className="flex flex-col gap-4">{message}</ReactMarkdown>
       ) : (
         <p>{message}</p>
       )}

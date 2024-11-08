@@ -1,3 +1,4 @@
+import { PROMPT } from '@/lib/prompt'
 import { google } from '@ai-sdk/google'
 import { streamText } from 'ai'
 
@@ -8,6 +9,7 @@ export async function POST(req: Request) {
 
   const result = await streamText({
     model,
+    system: PROMPT,
     messages,
   })
 
