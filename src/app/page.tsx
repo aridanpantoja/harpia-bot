@@ -29,7 +29,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="mx-auto h-full grow md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
+      <main className="mx-auto h-full w-full grow md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
         <div className="mx-auto flex w-full flex-1 grow flex-col gap-4 p-6 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
           <div className="flex-1 grow">
             <div className="mb-20 space-y-4 md:space-y-6">

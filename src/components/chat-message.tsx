@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { Bot } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 
 interface ChatMessageProps {
   message: string
@@ -21,7 +22,11 @@ export function ChatMessage({ message, type }: ChatMessageProps) {
           <Bot className="size-5 text-primary-foreground" />
         </div>
       )}
-      <p>{message}</p>
+      {type === 'assistant' ? (
+        <ReactMarkdown>{message}</ReactMarkdown>
+      ) : (
+        <p>{message}</p>
+      )}
     </article>
   )
 }
