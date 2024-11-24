@@ -7,7 +7,7 @@ export function ChatMessage({ message }: { message: Message }) {
   return (
     <article
       className={cn(
-        '',
+        'my-4 first:mt-0 md:my-6 [&:nth-last-child(3)]:mb-2',
         message.role === 'assistant'
           ? 'flex w-full items-center gap-2'
           : 'relative ml-auto w-fit max-w-[70%] rounded-xl border border-muted-foreground/5 bg-muted-foreground/10 px-5 py-2.5',

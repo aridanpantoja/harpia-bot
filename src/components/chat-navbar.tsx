@@ -5,7 +5,7 @@ import { ClearChat } from '@/components/clear-chat'
 
 export function ChatNavbar() {
   return (
-    <header className="sticky top-0 z-50 w-full gap-2 border-b bg-background">
+    <header className="fixed top-0 z-50 w-full gap-2 border-b bg-background">
       <div className="relative flex h-14 items-center justify-between px-4">
         <div>
           <ClearChat />
