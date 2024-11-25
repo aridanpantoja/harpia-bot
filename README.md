@@ -1,4 +1,4 @@
-<h1>Chatbot with Next.js + Vercel AI SDK + Gemini 🤖</h1> 
+<h1>Harpia 🦅</h1> 
 
 <p>
     <b>This project is a chatbot developed to assist prospective students of the Federal University of Pará (UFPA) with queries related to the PS 2025 admission process.</b>
@@ -6,7 +6,7 @@
 
 <h2 id="tech-stack">Tech Stack 💻</h2>
 
-[![My Skills](https://skillicons.dev/icons?i=nodejs,react,nextjs,ts,tailwind,vercel)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=nodejs,react,nextjs,ts,tailwind,redis,vercel,git,github)](https://skillicons.dev)
 
 <h2 id="project-overview">Project Overview 📋</h2>
 
@@ -16,6 +16,8 @@
 
 ```env
 GOOGLE_GENERATIVE_AI_API_KEY="your api key here"
+UPSTASH_REDIS_REST_URL="your redis url here"
+UPSTASH_REDIS_REST_TOKEN="your redis token here"
 ```
 
 #### 3. Install required dependencies with pnpm
@@ -35,7 +37,7 @@ pnpm dev
 If you want to contribute, clone this repo, create your work branch and get your hands dirty!
 
 ```bash
-git clone https://github.com/aridanpantoja/chatbot-ufpa.git
+git clone https://github.com/aridanpantoja/harpia-bot.git
 ```
 
 ```bash

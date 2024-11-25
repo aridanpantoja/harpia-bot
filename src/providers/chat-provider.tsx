@@ -1,40 +1,35 @@
 'use client'
 
-import { Message } from 'ai'
+import { ChatRequestOptions, Message } from 'ai'
 import { useChat } from 'ai/react'
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import React, { createContext, ReactNode, useEffect, useState } from 'react'
 
-interface ChatContextData {
+export interface ChatContextData {
   messages: Message[]
   input: string
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   handleClearHistory: () => void
+  isMessagesLoading: boolean
   isLoading: boolean
+  reload: (
+    chatRequestOptions?: ChatRequestOptions,
+  ) => Promise<string | null | undefined>
 }
 
-const ChatContext = createContext<ChatContextData>({} as ChatContextData)
-
-export function useChatContext(): ChatContextData {
-  const context = useContext(ChatContext)
-
-  if (!context) {
-    throw new Error('useChatProvider must be used within a ChatProvider')
-  }
-
-  return context
-}
+export const ChatContext = createContext<ChatContextData>({} as ChatContextData)
 
 export function ChatProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true)
-  const { messages, input, handleInputChange, handleSubmit, setMessages } =
-    useChat()
+  const [isMessagesLoading, setIsMessagesLoading] = useState(true)
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    setMessages,
+    isLoading,
+    reload,
+  } = useChat()
 
   useEffect(() => {
     const savedMessages = localStorage.getItem('chatMessages')
@@ -43,7 +38,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       setMessages(JSON.parse(savedMessages))
     }
 
-    setIsLoading(false)
+    setIsMessagesLoading(false)
   }, [setMessages])
 
   useEffect(() => {
@@ -65,7 +60,9 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         handleInputChange,
         handleSubmit,
         handleClearHistory,
+        isMessagesLoading,
         isLoading,
+        reload,
       }}
     >
       {children}

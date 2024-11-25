@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { useChatContext } from '@/providers/chat-provider'
+import { useChatContext } from '@/hooks/use-chat-context'
 
 export function ClearChat() {
   const { handleClearHistory, messages } = useChatContext()
@@ -20,7 +20,12 @@ export function ClearChat() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon" disabled={!messages.length}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
+          disabled={!messages.length}
+        >
           <Trash />
         </Button>
       </AlertDialogTrigger>
