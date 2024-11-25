@@ -1,4 +1,4 @@
-<h1>Chatbot with Next.js + Vercel AI SDK + Gemini 🤖</h1> 
+<h1>Harpia 🦅</h1> 
 
 <p>
     <b>This project is a chatbot developed to assist prospective students of the Federal University of Pará (UFPA) with queries related to the PS 2025 admission process.</b>
@@ -37,7 +37,7 @@ pnpm dev
 If you want to contribute, clone this repo, create your work branch and get your hands dirty!
 
 ```bash
-git clone https://github.com/aridanpantoja/chatbot-ufpa.git
+git clone https://github.com/aridanpantoja/harpia-bot.git
 ```
 
 ```bash
