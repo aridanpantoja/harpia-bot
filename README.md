@@ -6,7 +6,7 @@
 
 <h2 id="tech-stack">Tech Stack 💻</h2>
 
-[![My Skills](https://skillicons.dev/icons?i=nodejs,react,nextjs,ts,tailwind,vercel)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=nodejs,react,nextjs,ts,tailwind,redis,vercel,git,github)](https://skillicons.dev)
 
 <h2 id="project-overview">Project Overview 📋</h2>
 
