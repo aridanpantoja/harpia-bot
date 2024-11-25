@@ -65,7 +65,7 @@ export function ChatContent() {
                   <ChatMessage message={message} key={message.id} />
                 ))}
 
-                {!isLoading && (
+                {!isLoading && messages.length > 0 && (
                   <div className="ml-10 space-x-1">
                     <Button
                       size="icon"

@@ -37,6 +37,7 @@ export function ChatInput() {
           A Harpia pode cometer erros. Por isso, confira o{' '}
           <Link
             href={siteConfig.links.ps2025}
+            target="_blank"
             className="text-primary underline underline-offset-2"
           >
             edital aqui
