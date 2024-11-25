@@ -55,7 +55,7 @@ export function ChatContent() {
   }, [messages, isMessagesLoading, isAtBottom])
 
   return (
-    <main className="relative mx-auto mt-14 h-full w-full grow md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
+    <main className="relative mx-auto mt-12 h-full w-full grow md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
       <div className="mx-auto flex w-full flex-1 grow flex-col gap-4 p-6 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
         <div className="flex-1 grow">
           <div className="mb-32">

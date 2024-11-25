@@ -1,6 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import { Message } from 'ai'
-import { Bot } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 export function ChatMessage({ message }: { message: Message }) {
@@ -14,9 +14,10 @@ export function ChatMessage({ message }: { message: Message }) {
       )}
     >
       {message.role === 'assistant' && (
-        <div className="self-start rounded-full border bg-primary p-2">
-          <Bot className="size-4 text-primary-foreground" />
-        </div>
+        <Avatar className="size-8 self-start">
+          <AvatarImage src="/harpia-logo.svg" alt="Harpia" />
+          <AvatarFallback>HA</AvatarFallback>
+        </Avatar>
       )}
       {message.role === 'assistant' ? (
         <ReactMarkdown
@@ -25,6 +26,7 @@ export function ChatMessage({ message }: { message: Message }) {
             a: ({ children, ...props }) => (
               <a
                 className="font-medium text-primary underline underline-offset-4"
+                target="_blank"
                 {...props}
               >
                 {children}
