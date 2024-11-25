@@ -6,5 +6,7 @@ export const siteConfig = {
     'Chatbot não oficial para candidatos do PS 2025 UFPA, oferecendo informações sobre inscrições, cotas, documentação e muito mais.',
   links: {
     ps2025: 'https://www.ceps.ufpa.br/index.php/ps2025/848-ed-avisos-ps2025',
+    form: 'https://forms.gle/3gcZnEuUahKFgaki9',
+    github: 'https://github.com/aridanpantoja/harpia-bot',
   },
 }
