@@ -20,7 +20,12 @@ export function ClearChat() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon" disabled={!messages.length}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
+          disabled={!messages.length}
+        >
           <Trash />
         </Button>
       </AlertDialogTrigger>

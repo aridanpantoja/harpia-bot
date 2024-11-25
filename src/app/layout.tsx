@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { siteConfig } from '@/config'
+import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     { name: 'Aridan Pantoja', url: 'https://github.com/aridanpantoja' },
     { name: 'Karol Wojtyla', url: 'https://github.com/kwojtyla' },
   ],
-  creator: 'Aridan & Team',
+  creator: 'Aridan & Karol',
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
+    shortcut: '/favicon-96x96.png',
     apple: '/apple-touch-icon.png',
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="pt-BR" className="h-full" suppressHydrationWarning>
       <body className={cn('h-full w-full antialiased', inter.className)}>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   )

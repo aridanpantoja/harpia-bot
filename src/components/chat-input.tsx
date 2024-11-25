@@ -4,6 +4,8 @@ import { useChatContext } from '@/hooks/use-chat-context'
 import { ArrowUp } from 'lucide-react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
+import Link from 'next/link'
+import { siteConfig } from '@/config'
 
 export function ChatInput() {
   const { input, handleInputChange, handleSubmit, isLoading } = useChatContext()
@@ -17,7 +19,7 @@ export function ChatInput() {
         >
           <Input
             placeholder="Pergunte ao Chatbot"
-            className="pl-6"
+            className="pl-6 placeholder:text-muted-foreground"
             value={input}
             onChange={handleInputChange}
           />
@@ -32,7 +34,14 @@ export function ChatInput() {
         </form>
 
         <p className="text-center text-xs text-muted-foreground">
-          O Karozin pode cometer erros. Por isso, chegue as respostas aqui
+          A Harpia pode cometer erros. Por isso, confira o{' '}
+          <Link
+            href={siteConfig.links.ps2025}
+            target="_blank"
+            className="text-primary underline underline-offset-2"
+          >
+            edital aqui
+          </Link>
         </p>
       </div>
     </div>
