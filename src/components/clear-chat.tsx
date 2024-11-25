@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { useChatContext } from '@/providers/chat-provider'
+import { useChatContext } from '@/hooks/use-chat-context'
 
 export function ClearChat() {
   const { handleClearHistory, messages } = useChatContext()

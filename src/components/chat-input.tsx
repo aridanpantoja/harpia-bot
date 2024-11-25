@@ -1,12 +1,12 @@
 'use client'
 
-import { useChatContext } from '@/providers/chat-provider'
+import { useChatContext } from '@/hooks/use-chat-context'
 import { ArrowUp } from 'lucide-react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 
 export function ChatInput() {
-  const { input, handleInputChange, handleSubmit } = useChatContext()
+  const { input, handleInputChange, handleSubmit, isLoading } = useChatContext()
 
   return (
     <div className="fixed inset-x-0 bottom-0 flex w-full items-center bg-background/80 pb-4 backdrop-blur-lg">
@@ -25,7 +25,7 @@ export function ChatInput() {
           <Button
             size="icon"
             className="mr-2 flex-shrink-0 rounded-full"
-            disabled={!input}
+            disabled={!input || isLoading}
           >
             <ArrowUp />
           </Button>

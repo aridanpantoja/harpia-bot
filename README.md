@@ -16,6 +16,8 @@
 
 ```env
 GOOGLE_GENERATIVE_AI_API_KEY="your api key here"
+UPSTASH_REDIS_REST_URL="your redis url here"
+UPSTASH_REDIS_REST_TOKEN="your redis token here"
 ```
 
 #### 3. Install required dependencies with pnpm
