@@ -2,10 +2,9 @@
 
 import { useChatContext } from '@/hooks/use-chat-context'
 import { ArrowUp } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import Link from 'next/link'
-import { siteConfig } from '@/config'
 
 export function ChatInput() {
   const { input, handleInputChange, handleSubmit, isLoading } = useChatContext()
@@ -34,13 +33,12 @@ export function ChatInput() {
         </form>
 
         <p className="text-center text-xs text-muted-foreground">
-          A Harpia pode cometer erros. Por isso, confira o{' '}
+          A Harpia pode cometer erros. Veja o edital e{' '}
           <Link
-            href={siteConfig.links.ps2025}
-            target="_blank"
+            href="/links"
             className="text-primary underline underline-offset-2"
           >
-            edital aqui
+            links úteis aqui
           </Link>
         </p>
       </div>
