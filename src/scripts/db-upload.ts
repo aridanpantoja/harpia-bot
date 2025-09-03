@@ -2,12 +2,16 @@
 /** biome-ignore-all lint/nursery/noAwaitInLoop: this is a script */
 
 import { openai } from '@ai-sdk/openai';
-import { createClient } from '@supabase/supabase-js';
 import { embedMany, generateObject } from 'ai';
 import 'dotenv/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-
+// Configuração do cliente S3
+import {
+  HeadObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { drizzle } from 'drizzle-orm/postgres-js';
@@ -16,27 +20,99 @@ import postgres from 'postgres';
 import { z } from 'zod';
 import { file, fileChunk } from '@/lib/db/schema';
 
+interface S3Config {
+  endpoint: string;
+  region: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+  bucketName: string;
+  forcePathStyle?: boolean;
+}
+
+// Função para criar cliente S3 compatível com diferentes providers
+function createS3Client(config: S3Config): S3Client {
+  return new S3Client({
+    endpoint: config.endpoint,
+    region: config.region,
+    credentials: {
+      accessKeyId: config.accessKeyId,
+      secretAccessKey: config.secretAccessKey,
+    },
+    forcePathStyle: config.forcePathStyle ?? true, // Necessário para MinIO e outros providers
+  });
+}
+
+// Função para fazer upload do arquivo para S3
+async function uploadFileToS3(
+  s3Client: S3Client,
+  bucketName: string,
+  key: string,
+  fileBody: Buffer,
+  contentType: string
+): Promise<string> {
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    Body: fileBody,
+    ContentType: contentType,
+  });
+
+  await s3Client.send(command);
+
+  // Retorna a URL do arquivo (pode variar dependendo do provider)
+  return `${key}`;
+}
+
+// Função para verificar se o arquivo já existe
+async function checkFileExists(
+  s3Client: S3Client,
+  bucketName: string,
+  key: string
+): Promise<boolean> {
+  try {
+    const command = new HeadObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+    });
+    await s3Client.send(command);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 (async () => {
   try {
     console.log('🚀 Iniciando o script...');
 
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const s3Config: S3Config = {
+      endpoint: process.env.S3_ENDPOINT as string,
+      region: process.env.S3_REGION as string,
+      accessKeyId: process.env.S3_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string,
+      bucketName: process.env.S3_BUCKET as string,
+      forcePathStyle: process.env.S3_FORCE_PATH_STYLE !== 'false',
+    };
 
-    if (!supabaseUrl) {
-      throw new Error('Variável de ambiente SUPABASE_URL não definida.');
+    if (!s3Config.accessKeyId) {
+      throw new Error('Variável de ambiente S3_ACCESS_KEY_ID não definida.');
     }
 
-    if (!supabaseKey) {
+    if (!s3Config.secretAccessKey) {
       throw new Error(
-        'Variável de ambiente SUPABASE_SERVICE_ROLE_KEY não definida.'
+        'Variável de ambiente S3_SECRET_ACCESS_KEY não definida.'
       );
+    }
+
+    if (!s3Config.bucketName) {
+      throw new Error('Variável de ambiente S3_BUCKET não definida.');
     }
 
     const connection = postgres(process.env.DATABASE_URL as string);
     const db = drizzle(connection);
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Criação do cliente S3
+    const s3Client = createS3Client(s3Config);
     const embeddingModel = openai.textEmbeddingModel('text-embedding-3-small');
     const chatModel = openai('gpt-5-nano');
 
@@ -47,18 +123,36 @@ import { file, fileChunk } from '@/lib/db/schema';
     const filename = path.basename(filePath);
     const fileBody = await fs.readFile(filePath);
 
-    const { data: storageData, error: storageError } = await supabase.storage
-      .from('harpia')
-      .upload(`uploads/${filename}`, fileBody, {
-        contentType: 'application/pdf',
-        upsert: false,
-      });
+    const s3Key = `uploads/${filename}`;
+    const fileExists = await checkFileExists(
+      s3Client,
+      s3Config.bucketName,
+      s3Key
+    );
 
-    if (storageError) {
-      throw storageError;
+    if (fileExists) {
+      console.log(
+        '⚠️ Arquivo já existe no S3. Continuando com o processamento...'
+      );
+    } else {
+      console.log('📤 Fazendo upload do arquivo para S3...');
+
+      try {
+        await uploadFileToS3(
+          s3Client,
+          s3Config.bucketName,
+          s3Key,
+          fileBody,
+          'application/pdf'
+        );
+
+        console.log('✅ Upload para S3 concluído!');
+        console.log(`📁 Arquivo salvo em: ${s3Key}`);
+      } catch (uploadError) {
+        console.error('❌ Erro no upload para S3:', uploadError);
+        throw uploadError;
+      }
     }
-
-    console.log('✅ Upload concluído!');
 
     console.log('🔍 Extraindo metadados e carregando páginas com PDFLoader...');
 
@@ -101,7 +195,7 @@ import { file, fileChunk } from '@/lib/db/schema';
       .insert(file)
       .values({
         filename,
-        url: storageData.path,
+        url: s3Key,
         category: fileAiMetadata.category,
         description: fileAiMetadata.description,
         pages: numPages,
@@ -116,8 +210,8 @@ import { file, fileChunk } from '@/lib/db/schema';
     );
 
     const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 0,
+      chunkSize: 750,
+      chunkOverlap: 150,
     });
 
     const documentsToProcess: {

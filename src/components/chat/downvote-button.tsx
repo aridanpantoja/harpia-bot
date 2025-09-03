@@ -14,12 +14,12 @@ export function DownvoteButton({
   messageId,
   vote,
 }: DownvoteButtonProps) {
-  const { mutateAsync } = useVote({ chatId, messageId });
+  const { mutateAsync, isPending } = useVote({ chatId, messageId });
 
   return (
     <TooltipButton
       content="Descurtir"
-      disabled={vote?.isUpvoted === false}
+      disabled={vote?.isUpvoted === false || isPending}
       onClick={() => mutateAsync({ type: 'down' })}
       size="icon"
       variant="outline"

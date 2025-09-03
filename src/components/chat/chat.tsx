@@ -61,7 +61,11 @@ export function Chat({ chatId, initialMessages, userId }: ChatProps) {
         </div>
 
         <div className="sticky bottom-0 z-50 w-full rounded-t-2xl bg-background pb-4">
-          <ChatInput onSendMessage={sendMessage} status={status} />
+          <ChatInput
+            disabled={!userId}
+            onSendMessage={sendMessage}
+            status={status}
+          />
         </div>
       </WidthWrapper>
     </div>

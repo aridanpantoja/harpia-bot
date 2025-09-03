@@ -33,6 +33,8 @@ export const hybridSearchTool = tool({
         );
       `);
 
+      console.log(result);
+
       return {
         success: true,
         documents: result ?? [],

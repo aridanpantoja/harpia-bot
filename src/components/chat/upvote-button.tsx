@@ -10,12 +10,12 @@ type UpvoteButtonProps = {
 };
 
 export function UpvoteButton({ chatId, messageId, vote }: UpvoteButtonProps) {
-  const { mutateAsync } = useVote({ chatId, messageId });
+  const { mutateAsync, isPending } = useVote({ chatId, messageId });
 
   return (
     <TooltipButton
       content="Curtir"
-      disabled={vote?.isUpvoted === true}
+      disabled={vote?.isUpvoted === true || isPending}
       onClick={() => mutateAsync({ type: 'up' })}
       size="icon"
       variant="outline"
